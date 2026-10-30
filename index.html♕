@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#020805">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="مَلِك الهم">
+<meta name="description" content="ساعة مَلِك الهم المستقبلية بتأثيرات الهاكرز">
+
+<title>مَلِك♕ الهم</title>
+
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Cairo:wght@700;900&display=swap');
+
+*{box-sizing:border-box}
+
+html{
+ min-height:100%;
+ background:#020805;
+}
+
+body{
+ margin:0;
+ min-height:100vh;
+ min-height:100dvh;
+ background:#020805;
+ color:#39ff14;
+ font-family:Orbitron,monospace;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ overflow-x:hidden;
+ padding:18px;
+ padding-top:max(18px,env(safe-area-inset-top));
+ padding-bottom:max(18px,env(safe-area-inset-bottom));
+ -webkit-tap-highlight-color:transparent;
+}
+
+canvas{
+ position:fixed;
+ inset:0;
+ width:100%;
+ height:100%;
+ z-index:0;
+ opacity:.35;
+ pointer-events:none;
+}
+
+body:after{
+ content:"";
+ position:fixed;
+ inset:0;
+ pointer-events:none;
+ z-index:5;
+ background:repeating-linear-gradient(
+ transparent 0px,
+ transparent 3px,
+ #39ff1408 4px
+ );
+}
+
+.panel{
+ width:min(100%,440px);
+ padding:24px 18px;
+ border:1px solid #39ff1466;
+ background:linear-gradient(145deg,#06140dF2,#010503F5);
+ border-radius:22px;
+ box-shadow:0 0 35px #00ff3330,inset 0 0 25px #00ff1410;
+ position:relative;
+ z-index:1;
+ overflow:hidden;
+}
+
+.panel:before{
+ content:"";
+ position:absolute;
+ top:0;
+ left:-100%;
+ width:100%;
+ height:2px;
+ background:#39ff14;
+ box-shadow:0 0 15px #39ff14;
+ animation:scan 4s linear infinite;
+}
+
+@keyframes scan{to{left:100%}}
+
+.brand{
+ text-align:center;
+ font-family:Cairo,sans-serif;
+ font-size:29px;
+ font-weight:900;
+ text-shadow:0 0 12px #39ff14;
+ margin:0;
+}
+
+.sub{
+ text-align:center;
+ font-size:9px;
+ letter-spacing:4px;
+ color:#8bff91;
+ margin:3px 0 25px;
+}
+
+.status{
+ display:flex;
+ justify-content:space-between;
+ gap:8px;
+ font-size:9px;
+ color:#9cff9c;
+}
+
+.dot{
+ color:#39ff14;
+ text-shadow:0 0 10px #39ff14;
+}
+
+.clockbox{
+ text-align:center;
+ padding:22px 0;
+ border-top:1px solid #39ff1433;
+ border-bottom:1px solid #39ff1433;
+ margin:18px 0;
+}
+
+.time{
+ font-size:clamp(38px,11vw,55px);
+ font-weight:800;
+ letter-spacing:2px;
+ text-shadow:0 0 8px #39ff14,0 0 25px #00ff55;
+ direction:ltr;
+}
+
+.date{
+ font-family:Cairo,sans-serif;
+ font-size:12px;
+ color:#b5ffb9;
+ margin-top:12px;
+}
+
+.circle{
+ width:min(190px,55vw);
+ height:min(190px,55vw);
+ margin:22px auto;
+ border-radius:50%;
+ border:2px solid #39ff1477;
+ display:grid;
+ place-items:center;
+ position:relative;
+ box-shadow:0 0 20px #39ff1444,inset 0 0 25px #39ff1422;
+}
+
+.circle:before,.circle:after{
+ content:"";
+ position:absolute;
+ inset:9px;
+ border:1px dashed #39ff1477;
+ border-radius:50%;
+ animation:spin 18s linear infinite;
+}
+
+.circle:after{
+ inset:20px;
+ border:1px solid #39ff1455;
+ animation:spin 12s linear infinite reverse;
+}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.core{
+ text-align:center;
+ z-index:1;
+}
+
+.core strong{
+ display:block;
+ font-size:34px;
+ text-shadow:0 0 15px #39ff14;
+ direction:ltr;
+}
+
+.core small{
+ font-size:9px;
+ letter-spacing:3px;
+}
+
+.grid{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+}
+
+.stat{
+ border:1px solid #39ff143d;
+ background:#39ff1409;
+ padding:12px;
+ border-radius:10px;
+ min-width:0;
+}
+
+.stat small{
+ font-size:9px;
+ color:#91c995;
+}
+
+.stat b{
+ display:block;
+ font-size:14px;
+ margin-top:8px;
+ overflow-wrap:anywhere;
+}
+
+.bar{
+ height:4px;
+ background:#12351a;
+ margin-top:9px;
+ border-radius:5px;
+ overflow:hidden;
+}
+
+.bar i{
+ display:block;
+ height:100%;
+ background:#39ff14;
+ box-shadow:0 0 8px #39ff14;
+}
+
+.terminal{
+ margin-top:15px;
+ border:1px solid #39ff1444;
+ padding:12px;
+ border-radius:10px;
+ background:#0008;
+}
+
+.terminal h3{
+ font-size:10px;
+ margin:0 0 10px;
+ color:#b2ffb4;
+}
+
+.logs{
+ font-size:9px;
+ line-height:2;
+ color:#78d982;
+ min-height:88px;
+ overflow:hidden;
+ direction:ltr;
+ text-align:left;
+}
+
+.logs span{color:#39ff14}
+
+.buttons{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:9px;
+ margin-top:15px;
+}
+
+button{
+ background:#06200d;
+ color:#39ff14;
+ border:1px solid #39ff1477;
+ border-radius:9px;
+ padding:12px 8px;
+ font-family:inherit;
+ font-size:10px;
+ cursor:pointer;
+ min-height:44px;
+ touch-action:manipulation;
+ transition:background .2s,color .2s;
+}
+
+button:active{
+ background:#39ff14;
+ color:#001;
+}
+
+button:focus-visible{
+ outline:2px solid #fff;
+ outline-offset:3px;
+}
+
+footer{
+ text-align:center;
+ font-size:8px;
+ color:#598e60;
+ margin-top:20px;
+ letter-spacing:2px;
+}
+
+@media(max-width:360px){
+ body{padding:10px}
+ .panel{padding:20px 12px}
+ .brand{font-size:25px}
+ .sub{font-size:8px;letter-spacing:2px}
+ .stat{padding:9px}
+ .stat small{font-size:8px}
+ .stat b{font-size:12px}
+ .buttons button{font-size:9px}
+}
+
+@media(orientation:landscape) and (max-height:550px){
+ body{align-items:flex-start}
+ .panel{margin:10px auto}
+ .circle{width:125px;height:125px;margin:12px auto}
+ .circle:before{inset:6px}
+ .circle:after{inset:14px}
+ .sub{margin-bottom:12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{
+  animation-duration:0.01ms!important;
+  animation-iteration-count:1!important;
+  scroll-behavior:auto!important;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<main class="panel">
+
+ <div class="status">
+  <span><span class="dot">●</span> SYSTEM ONLINE</span>
+  <span>SECURE MODE</span>
+ </div>
+
+ <h1 class="brand">مَلِك♕ الهم</h1>
+ <div class="sub">FUTURE CYBER WATCH // 2099</div>
+
+ <div class="circle">
+  <div class="core">
+   <strong id="hour">00:00</strong>
+   <small>TIME CORE</small>
+  </div>
+ </div>
+
+ <div class="clockbox">
+  <div class="time" id="time">00:00:00</div>
+  <div class="date" id="date">LOADING DATE...</div>
+ </div>
+
+ <div class="grid">
+
+  <div class="stat">
+   <small>CPU SIMULATION</small>
+   <b id="cpu">72%</b>
+   <div class="bar"><i id="cpuBar" style="width:72%"></i></div>
+  </div>
+
+  <div class="stat">
+   <small>MEMORY SIMULATION</small>
+   <b id="mem">48%</b>
+   <div class="bar"><i id="memBar" style="width:48%"></i></div>
+  </div>
+
+  <div class="stat">
+   <small>NETWORK STATUS</small>
+   <b id="network">CONNECTED</b>
+  </div>
+
+  <div class="stat">
+   <small>SECURITY LEVEL</small>
+   <b>MAXIMUM</b>
+  </div>
+
+ </div>
+
+ <div class="terminal">
+  <h3>♕ SYSTEM TERMINAL</h3>
+  <div class="logs" id="logs">
+   <div><span>[OK]</span> Cyber system initialized</div>
+   <div><span>[OK]</span> Secure connection active</div>
+   <div><span>[INFO]</span> Welcome, King of Dreams</div>
+  </div>
+ </div>
+
+ <div class="buttons">
+  <button onclick="toggleFormat()">12 / 24 HOUR</button>
+  <button onclick="toggleSeconds()">SECONDS ON/OFF</button>
+  <button onclick="changeTheme()">CHANGE COLOR</button>
+  <button onclick="fullScreen()">FULL SCREEN</button>
+ </div>
+
+ <footer>مَلِك♕ الهم • THE FUTURE IS YOURS</footer>
+
+</main>
+
+<script>
+let format24=true;
+let seconds=true;
+let theme=0;
+
+const colors=[
+ '#39ff14',
+ '#00e5ff',
+ '#ff00e5',
+ '#ffb000'
+];
+
+function update(){
+ const d=new Date();
+ let h=d.getHours();
+ let m=d.getMinutes();
+ let s=d.getSeconds();
+
+ let display=format24?h:((h%12)||12);
+ const pad=n=>String(n).padStart(2,'0');
+
+ document.getElementById('hour').textContent=
+ pad(display)+':'+pad(m);
+
+ document.getElementById('time').textContent=
+ pad(display)+':'+pad(m)+(seconds?':'+pad(s):'');
+
+ document.getElementById('date').textContent=
+ d.toLocaleDateString('ar-DZ',{
+  weekday:'long',
+  year:'numeric',
+  month:'long',
+  day:'numeric'
+ });
+}
+
+setInterval(update,250);
+update();
+
+function toggleFormat(){
+ format24=!format24;
+ update();
+}
+
+function toggleSeconds(){
+ seconds=!seconds;
+ update();
+}
+
+async function fullScreen(){
+ try{
+  if(!document.fullscreenElement){
+   await document.documentElement.requestFullscreen();
+  }else{
+   await document.exitFullscreen();
+  }
+ }catch(e){
+  alert('ملء الشاشة غير مدعوم في هذا المتصفح.');
+ }
+}
+
+function changeTheme(){
+ theme=(theme+1)%colors.length;
+ const color=colors[theme];
+
+ document.querySelectorAll(
+  '.panel,.circle,.stat,.terminal'
+ ).forEach(e=>{
+  e.style.borderColor=color+'77';
+ });
+
+ document.querySelectorAll(
+  '.time,.brand,.core strong,.dot'
+ ).forEach(e=>{
+  e.style.color=color;
+  e.style.textShadow='0 0 15px '+color;
+ });
+
+ document.querySelectorAll('.bar i').forEach(e=>{
+  e.style.background=color;
+  e.style.boxShadow='0 0 8px '+color;
+ });
+
+ document.querySelectorAll('button').forEach(e=>{
+  e.style.color=color;
+  e.style.borderColor=color+'77';
+ });
+}
+
+const messages=[
+ '[OK] System protection active',
+ '[SCAN] Checking virtual modules',
+ '[INFO] Future interface running',
+ '[OK] Clock synchronization complete',
+ '[SECURE] No threats detected',
+ '[DATA] Interface stability confirmed',
+ '[SYSTEM] Welcome back, King'
+];
+
+function addLog(){
+ const box=document.getElementById('logs');
+ const line=document.createElement('div');
+
+ const span=document.createElement('span');
+ span.textContent=messages[
+  Math.floor(Math.random()*messages.length)
+ ];
+
+ line.appendChild(span);
+ box.appendChild(line);
+
+ while(box.children.length>4){
+  box.removeChild(box.firstChild);
+ }
+}
+
+setInterval(addLog,2500);
+
+function randomStats(){
+ let c=30+Math.floor(Math.random()*65);
+ let m=25+Math.floor(Math.random()*60);
+
+ document.getElementById('cpu').textContent=c+'%';
+ document.getElementById('mem').textContent=m+'%';
+
+ document.getElementById('cpuBar').style.width=c+'%';
+ document.getElementById('memBar').style.width=m+'%';
+}
+
+setInterval(randomStats,1800);
+
+// حالة الاتصال الحقيقية
+function updateNetwork(){
+ document.getElementById('network').textContent=
+ navigator.onLine?'CONNECTED':'OFFLINE';
+}
+
+window.addEventListener('online',updateNetwork);
+window.addEventListener('offline',updateNetwork);
+updateNetwork();
+
+// Matrix background
+const canvas=document.getElementById('matrix');
+const ctx=canvas.getContext('2d');
+
+let drops=[];
+let matrixTimer=null;
+
+function resize(){
+ const ratio=Math.min(window.devicePixelRatio||1,2);
+
+ canvas.width=Math.floor(innerWidth*ratio);
+ canvas.height=Math.floor(innerHeight*ratio);
+
+ ctx.setTransform(ratio,0,0,ratio,0,0);
+
+ drops=Array(Math.ceil(innerWidth/17)).fill(1);
+}
+
+resize();
+window.addEventListener('resize',resize);
+
+function drawMatrix(){
+ if(document.hidden)return;
+
+ ctx.fillStyle='rgba(0,0,0,0.08)';
+ ctx.fillRect(0,0,innerWidth,innerHeight);
+
+ ctx.fillStyle=colors[theme];
+ ctx.font='14px monospace';
+
+ drops.forEach((y,i)=>{
+  ctx.fillText(
+   String.fromCharCode(0x30A0+Math.random()*96),
+   i*17,
+   y*17
+  );
+
+  if(y*17>innerHeight&&Math.random()>.975){
+   drops[i]=0;
+  }
+
+  drops[i]++;
+ });
+}
+
+function startMatrix(){
+ if(matrixTimer===null){
+  matrixTimer=setInterval(drawMatrix,55);
+ }
+}
+
+function stopMatrix(){
+ if(matrixTimer!==null){
+  clearInterval(matrixTimer);
+  matrixTimer=null;
+ }
+}
+
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden){
+  stopMatrix();
+ }else{
+  startMatrix();
+ }
+});
+
+startMatrix();
+
+// تسجيل الموقع كتطبيق PWA
+if('serviceWorker' in navigator){
+ window.addEventListener('load',()=>{
+  navigator.serviceWorker.register('./sw.js')
+   .then(()=>console.log('PWA system ready'))
+   .catch(err=>console.log('PWA registration error:',err));
+ });
+}
+</script>
+
+</body>
+</html>
